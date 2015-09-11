@@ -1,0 +1,12 @@
+#Binaires
+*.a
+*.out
+TIS-100
+
+#Temporaires
+*~
+\#*#
+.#*
+
+#Object and depends
+*.[od]
