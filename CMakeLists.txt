@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.2)
-project(TIG_100)
+project(TIG-100)
 
 include_directories(include)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+link_libraries(ncursesw)
 
-set(SOURCE_FILES src/main.cpp src/Cell.cpp include/Cell.hpp src/CodeCell.cpp include/CodeCell.hpp)
-add_executable(TIG_100 ${SOURCE_FILES})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+
+set(SOURCE_FILES src/main.cpp src/Cell.cpp include/Cell.hpp src/CodeCell.cpp include/CodeCell.hpp include/termcap.hpp)
+add_executable(TIG-100 ${SOURCE_FILES})

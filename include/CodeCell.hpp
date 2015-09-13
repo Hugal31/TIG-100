@@ -5,19 +5,34 @@
 #ifndef TIG_100_CODECELL_HPP
 #define TIG_100_CODECELL_HPP
 
-#define NB_LINE 10
+#define CODE_NB_ROW      15
+#define CODE_NB_COLUMN   19
 
 #include <array>
 #include <string>
 #include "Cell.hpp"
 
+enum Status
+{
+	STATUS_IDLE,
+	STATUS_READ,
+	STATUS_WRITE
+};
+
 class CodeCell : public Cell
 {
 protected:
-    std::array<std::string, NB_LINE> _code;
+    short int   _acc;
+    short int   _back;
+	Status		_status;
+    short int   _idle;
+    std::array<std::string, CODE_NB_ROW> _code;
+
+	void draw_info(int start_x, int start_y);
+    void draw_code(int start_x, int start_y);
 
 public:
-    CodeCell(int x, int y);
+    CodeCell();
 
     void draw();
 };

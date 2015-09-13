@@ -2,31 +2,11 @@
 // Created by laloge_h on 12/09/15.
 //
 
+#define _X_OPEN_SOURCE_EXTENDED
+
 #include "Cell.hpp"
 
-Cell::Cell(int x, int y) :
-        _x(x),
-        _y(y)
+Cell::Cell()
 {
 
-}
-
-int Cell::get_x()
-{
-    return _x;
-}
-
-void Cell::set_x(int x)
-{
-    _x = x;
-}
-
-int Cell::get_y()
-{
-    return _y;
-}
-
-void Cell::set_y(int y)
-{
-    _y = y;
 }
