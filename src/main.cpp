@@ -2,29 +2,13 @@
 #include <iostream>
 #include <ncursesw/curses.h>
 #include <Cell.hpp>
+#include <Grid.hpp>
 #include "CodeCell.hpp"
 #include "termcap.hpp"
 
 using namespace std;
 
 WINDOW *term;
-
-static void draw_grid()
-{
-#define GRID_HEIGHT 3
-#define GRID_WIDTH  4
-    array<array<Cell*, GRID_WIDTH>, GRID_HEIGHT>    grid;
-
-    for (unsigned int y(0); y < GRID_HEIGHT; y++)
-    {
-        for (unsigned int x(0); x < GRID_WIDTH; x++)
-        {
-            move(y * (CELL_HEIGHT + 1) + 2, x * (CELL_WIDTH + 5));
-            grid[y][x] = new CodeCell;
-            grid[y][x]->draw();
-        }
-    }
-}
 
 int main()
 {
@@ -42,7 +26,8 @@ int main()
     {
         noecho();
         printw("Press enter...");
-        draw_grid();
+        Grid grid;
+		grid.draw();
         getch();
     }
     endwin();

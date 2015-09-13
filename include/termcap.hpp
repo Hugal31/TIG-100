@@ -8,7 +8,7 @@
 #define MIN_HEIGHT 50
 #define MIN_WIDTH 190
 
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 
 extern WINDOW* term;
 
