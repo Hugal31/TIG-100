@@ -23,7 +23,7 @@ CodeCell::CodeCell() :
 	_code[1] = "HCF";
 }
 
-void CodeCell::draw_info(int start_x, int start_y)
+void CodeCell::draw_info(int start_x, int start_y) const
 {
 	move(start_y + 2, start_x + CODE_NB_COLUMN + 4);
 	printw("0"); // Nb to string ?
@@ -32,7 +32,7 @@ void CodeCell::draw_info(int start_x, int start_y)
 	printw("<0>");
 }
 
-void CodeCell::draw_code(int start_x, int start_y)
+void CodeCell::draw_code(int start_x, int start_y) const
 {
 	// Lignes de code
 	for (unsigned int i(0); i < _code.size(); i++)
@@ -42,7 +42,7 @@ void CodeCell::draw_code(int start_x, int start_y)
 	}
 };
 
-void CodeCell::draw() // TODO Penser à utiliser un array de string
+void CodeCell::draw() const // TODO Penser à utiliser un array de string
 {
 	int start_x, start_y;
 
@@ -83,12 +83,12 @@ void CodeCell::draw() // TODO Penser à utiliser un array de string
 	{
 		move (start_y + y, start_x + CODE_NB_COLUMN + 1);
 		add_wch(WACS_D_LTEE);
-		add_wch(WACS_D_VLINE);
-		add_wch(WACS_D_VLINE);
-		add_wch(WACS_D_VLINE);
-		add_wch(WACS_D_VLINE);
-		add_wch(WACS_D_VLINE);
-		add_wch(WACS_D_VLINE);
+		add_wch(WACS_D_HLINE);
+		add_wch(WACS_D_HLINE);
+		add_wch(WACS_D_HLINE);
+		add_wch(WACS_D_HLINE);
+		add_wch(WACS_D_HLINE);
+		add_wch(WACS_D_HLINE);
 		add_wch(WACS_D_RTEE);
 	}
 

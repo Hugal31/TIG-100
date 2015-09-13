@@ -18,7 +18,7 @@ protected:
 public:
     Cell();
 
-    virtual void draw() = 0;
+    virtual void draw() const = 0;
 };
 
 

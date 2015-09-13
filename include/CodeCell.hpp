@@ -28,13 +28,12 @@ protected:
     short int   _idle;
     std::array<std::string, CODE_NB_ROW> _code;
 
-	void draw_info(int start_x, int start_y);
-    void draw_code(int start_x, int start_y);
-
 public:
     CodeCell();
 
-    void draw();
+    void draw() const;
+	void draw_info(int start_x, int start_y) const;
+	void draw_code(int start_x, int start_y) const;
 };
 
 
