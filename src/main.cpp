@@ -1,9 +1,7 @@
 #include <array>
 #include <iostream>
-#include <ncursesw/curses.h>
-#include <Cell.hpp>
+#include <ncurses.h>
 #include <Grid.hpp>
-#include "CodeCell.hpp"
 #include "termcap.hpp"
 
 using namespace std;
@@ -26,7 +24,7 @@ int main()
     {
         noecho();
         printw("Press enter...");
-        Grid grid;
+		Grid grid;
 		grid.draw();
         getch();
     }
