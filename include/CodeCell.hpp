@@ -22,10 +22,10 @@ enum Status
 class CodeCell : public Cell
 {
 protected:
-  short int   _acc;
-  short int   _back;
-  Status		_status;
-  short int   _idle;
+  short int _acc;
+  short int _back;
+  Status _status;
+  short int _idle;
   std::array<std::string, CODE_NB_ROW> _code;
 
 public:
