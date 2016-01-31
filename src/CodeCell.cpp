@@ -6,11 +6,11 @@
 #include "termcap.hpp"
 #include "CodeCell.hpp"
 
-CodeCell::CodeCell() :
-		_acc(0),
-		_back(0),
-		_status(STATUS_IDLE),
-		_idle(0)
+CodeCell::CodeCell()
+  : _acc(0)
+  , _back(0)
+  , _status(STATUS_IDLE)
+  , _idle(0)
 {
 	_code[0] = "MOV ACC, DOWN";
 	_code[1] = "HCF";
@@ -27,13 +27,13 @@ void CodeCell::draw_info(int start_x, int start_y) const
 
 void CodeCell::draw_code(int start_x, int start_y) const
 {
-	// Lignes de code
-	for (unsigned int i(0); i < _code.size(); i++)
-	{
-		move(start_y + 1 + i, start_x + 1);
-		printw(_code[i].c_str());
-	}
-};
+  // Lignes de code
+  for (unsigned int i(0); i < _code.size(); i++)
+    {
+      move(start_y + 1 + i, start_x + 1);
+      printw(_code[i].c_str());
+    }
+}
 
 void CodeCell::draw() const // TODO Penser à utiliser un array de string
 {

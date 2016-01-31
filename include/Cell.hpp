@@ -16,9 +16,9 @@ class Cell
 protected:
 
 public:
-	Cell();
+  Cell();
 
-	virtual void draw() const = 0;
+  virtual void draw() const = 0;
 };
 
 

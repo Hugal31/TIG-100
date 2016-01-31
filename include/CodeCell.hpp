@@ -14,26 +14,26 @@
 
 enum Status
 {
-	STATUS_IDLE,
-	STATUS_READ,
-	STATUS_WRITE
+  STATUS_IDLE,
+  STATUS_READ,
+  STATUS_WRITE
 };
 
 class CodeCell : public Cell
 {
 protected:
-	short int   _acc;
-	short int   _back;
-	Status		_status;
-	short int   _idle;
-	std::array<std::string, CODE_NB_ROW> _code;
+  short int   _acc;
+  short int   _back;
+  Status		_status;
+  short int   _idle;
+  std::array<std::string, CODE_NB_ROW> _code;
 
 public:
-	CodeCell();
+  CodeCell();
 
-	void draw() const;
-	void draw_info(int start_x, int start_y) const;
-	void draw_code(int start_x, int start_y) const;
+  void draw() const;
+  void draw_info(int start_x, int start_y) const;
+  void draw_code(int start_x, int start_y) const;
 };
 
 

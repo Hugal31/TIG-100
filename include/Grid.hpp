@@ -14,12 +14,12 @@
 class Grid
 {
 protected:
-	std::array<std::array<Cell*, GRID_WIDTH>, GRID_HEIGHT> _grid;
+  std::array<std::array<Cell*, GRID_WIDTH>, GRID_HEIGHT> _grid;
 
 public:
-	Grid();
+  Grid();
 
-	void draw() const;
+  void draw() const;
 };
 
 
