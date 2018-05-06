@@ -2,10 +2,12 @@
 name = "tig_100"
 version = "0.1.0"
 authors = ["Hugo Laloge <hugo.laloge@gmail.com>"]
+publish = false
 
 [[bin]]
 name = "TIG-100"
 path = "src/main.rs"
 
 [dependencies]
+failure = "~0.1.0"
 termion = "~1.5.0"
