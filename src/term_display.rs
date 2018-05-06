@@ -3,7 +3,7 @@ use std::io::{Result, Write};
 use termion::clear;
 use termion::cursor;
 
-use tig_100::*;
+use tig_100_game::*;
 
 const CELL_WIDTH: u16 = 27;
 const CELL_HEIGHT: u16 = 17;

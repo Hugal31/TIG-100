@@ -1,5 +1,5 @@
 extern crate termion;
-extern crate tig_100;
+extern crate tig_100_game;
 
 mod term_display;
 
@@ -10,7 +10,7 @@ use termion::cursor;
 use termion::event::{Event, Key};
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
-use tig_100::{Cell, CodeCell, Game};
+use tig_100_game::{Cell, CodeCell, Game};
 
 use term_display::TermDisplay;
 
