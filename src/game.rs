@@ -1,11 +1,6 @@
 use Grid;
 
+#[derive(Clone, Debug, Default)]
 pub struct Game {
     pub grid: Grid,
-}
-
-impl Game {
-    pub fn new() -> Game {
-        Game { grid: Grid::new() }
-    }
 }

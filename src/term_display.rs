@@ -29,8 +29,8 @@ impl TermDisplay for Game {
 
 impl TermDisplay for Grid {
     const TERM_SIZE: (u16, u16) = (
-        Cell::TERM_SIZE.0 * Grid::WIDTH + 3 * (Grid::WIDTH - 1),
-        Cell::TERM_SIZE.1 * Grid::HEIGHT + 3 * (Grid::HEIGHT - 1),
+        Cell::TERM_SIZE.0 * Grid::WIDTH as u16 + 3 * (Grid::WIDTH as u16 - 1),
+        Cell::TERM_SIZE.1 * Grid::HEIGHT as u16 + 3 * (Grid::HEIGHT as u16 - 1),
     );
 
     fn display_at<W>(&self, mut w: W, x: u16, y: u16) -> Result<()>
@@ -104,7 +104,11 @@ impl TermDisplay for CodeCell {
                 3 => w.write_all("│ BAK ║".as_bytes()),
                 4 => write!(w, "│{: ^5}║", self.back),
                 6 => w.write_all("│ LAST║".as_bytes()),
-                7 => write!(w, "│{: ^5}║", self.last.map(|l| l.into()).unwrap_or("N/A")),
+                7 => write!(
+                    w,
+                    "│{: ^5}║",
+                    self.last.map(|l| l.into()).unwrap_or("N/A")
+                ),
                 9 => w.write_all("│ MODE║".as_bytes()),
                 10 => write!(w, "│ {: ^4}║", self.status),
                 12 => w.write_all("│ IDLE║".as_bytes()),

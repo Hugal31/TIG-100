@@ -2,14 +2,16 @@ use {Cell, CodeCell};
 
 #[derive(Clone, Debug)]
 pub struct Grid {
-    pub cells: [[Cell; Grid::WIDTH]; Grid::HEIGHT],
+    pub cells: [[Cell; Grid::HEIGHT]; Grid::WIDTH],
 }
 
 impl Grid {
     pub const HEIGHT: usize = 3;
     pub const WIDTH: usize = 4;
-    
-    pub fn new() -> Grid {
+}
+
+impl Default for Grid {
+    fn default() -> Self {
         Grid {
             cells: [
                 [

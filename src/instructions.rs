@@ -79,7 +79,9 @@ impl FromStr for Instruction {
             })
         } else {
             let mut splitted = s.split_whitespace();
-            let op_code = splitted.next().unwrap().to_uppercase();
+            let op_code = splitted.next()
+                .ok_or(ParseError::InvalidArgumentNumber)?
+                .to_uppercase();
 
             match op_code.as_str() {
                 "NOP" => Ok(Instruction::Nop),

@@ -19,7 +19,7 @@ pub struct CodeCell {
     pub back: i16,
     pub status: Status,
     pub code: [Option<Instruction>; CodeCell::MAX_NB_ROW],
-    pub last: Option<Port>
+    pub last: Option<Port>,
 }
 
 impl CodeCell {
@@ -44,7 +44,7 @@ impl Default for Status {
 impl From<Status> for &'static str {
     fn from(status: Status) -> &'static str {
         use self::Status::*;
-        
+
         match status {
             Idle => "IDLE",
             Read => "READ",

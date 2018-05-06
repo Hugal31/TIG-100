@@ -4,9 +4,9 @@ extern crate failure;
 mod cell;
 mod game;
 mod grid;
-mod instructions;
 
 pub mod errors;
+pub mod instructions;
 
 pub use cell::*;
 pub use errors::*;
