@@ -15,6 +15,23 @@ pub trait TermDisplay {
         W: Write;
 }
 
+impl TermDisplay for Vec<char> {
+    const TERM_SIZE: (u16, u16) = (1, 1);
+
+    fn display_at<W>(&self, mut w: W, x: u16, y: u16) -> Result<()>
+    where
+        W: Write,
+    {
+        write!(w, "{}", cursor::Goto(x, y))?;
+        for c in self {
+            let mut buf = [0; 4];
+            w.write_all(c.encode_utf8(&mut buf).as_bytes())?;
+        }
+
+        Ok(())
+    }
+}
+
 impl TermDisplay for Game {
     const TERM_SIZE: (u16, u16) = Grid::TERM_SIZE;
 
