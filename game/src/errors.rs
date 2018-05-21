@@ -7,3 +7,9 @@ pub enum ParseError {
     #[fail(display = "Invalid label")]
     InvalidLabel,
 }
+
+#[derive(Clone, Debug, Fail, Eq, PartialEq)]
+pub enum RuntimeError {
+    #[fail(display = "")]
+    UnknownLabelName,
+}
