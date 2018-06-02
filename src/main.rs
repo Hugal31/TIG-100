@@ -1,5 +1,10 @@
 extern crate tig_100;
 
+use std::process::exit;
+
 fn main() {
-    tig_100::run();
+    if let Err(e) = tig_100::run() {
+        eprintln!("{}", e);
+        exit(1);
+    }
 }

@@ -6,6 +6,7 @@ use termion::input::{Events, TermRead};
 use tig_100_game::{Cell, CodeCell, Game};
 
 use cursor::Cursor;
+use errors::Result;
 use term_display::TermDisplay;
 
 /// Manage and display a [`Game`].
@@ -36,7 +37,7 @@ where
         }
     }
 
-    pub fn play(&mut self) -> io::Result<()> {
+    pub fn play(&mut self) -> Result<()> {
         self.refresh()?;
 
         while let Some(evt) = self.events.next() {
