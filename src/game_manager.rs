@@ -1,12 +1,12 @@
-use std::io;
 use std::io::{Read, Write};
 
+use failure::ResultExt;
 use termion::event::{Event, Key};
 use termion::input::{Events, TermRead};
 use tig_100_game::{Cell, CodeCell, Game};
 
 use cursor::Cursor;
-use errors::Result;
+use errors::{DisplayError, DisplayErrorKind, Error};
 use term_display::TermDisplay;
 
 /// Manage and display a [`Game`].
@@ -37,7 +37,7 @@ where
         }
     }
 
-    pub fn play(&mut self) -> Result<()> {
+    pub fn play(&mut self) -> Result<(), Error> {
         self.refresh()?;
 
         while let Some(evt) = self.events.next() {
@@ -53,13 +53,13 @@ where
                 //                Event::Key(Key::Delete) => cursor.delete_char(),
                 _ => (),
             }
-            self.output.flush()?;
+            self.output.flush().context(DisplayErrorKind::IoError)?;
         }
 
         Ok(())
     }
 
-    fn cursor_up(&mut self) -> io::Result<()> {
+    fn cursor_up(&mut self) -> Result<(), DisplayError> {
         self.save_code();
         if self.cursor.go_up() {
             self.reset_buffer();
@@ -73,7 +73,7 @@ where
         }
     }
 
-    fn cursor_down(&mut self) -> io::Result<()> {
+    fn cursor_down(&mut self) -> Result<(), DisplayError> {
         self.save_code();
         if self.cursor.go_down() {
             self.reset_buffer();
@@ -87,7 +87,7 @@ where
         }
     }
 
-    fn cursor_left(&mut self) -> io::Result<()> {
+    fn cursor_left(&mut self) -> Result<(), DisplayError> {
         if self.cursor.go_left() {
             self.refresh_cursor_and_buffer()
         } else {
@@ -95,7 +95,7 @@ where
         }
     }
 
-    fn cursor_right(&mut self) -> io::Result<()> {
+    fn cursor_right(&mut self) -> Result<(), DisplayError> {
         if self.cursor.go_right() {
             self.refresh_cursor_and_buffer()
         } else {
@@ -103,7 +103,7 @@ where
         }
     }
 
-    fn type_char(&mut self, c: char) -> io::Result<()> {
+    fn type_char(&mut self, c: char) -> Result<(), DisplayError> {
         while self.buffer.len() <= (self.cursor.column as usize) {
             self.buffer.push(' ');
         }
@@ -114,16 +114,18 @@ where
 
     fn save_code(&mut self) {
         let code = self.buffer.iter().collect::<String>();
-        let Cell::Code(ref mut cell) = self.game.grid.cells[self.cursor.cell_y as usize][self.cursor.cell_x as usize];
+        let Cell::Code(ref mut cell) =
+            self.game.grid.cells[self.cursor.cell_y as usize][self.cursor.cell_x as usize];
         cell.code[self.cursor.row as usize] = code.parse().ok();
     }
 
     fn load_code(&mut self) {
-        let Cell::Code(ref cell) = self.game.grid.cells[self.cursor.cell_y as usize][self.cursor.cell_x as usize];
-        self.buffer = cell.code[self.cursor.row as usize].as_ref()
+        let Cell::Code(ref cell) =
+            self.game.grid.cells[self.cursor.cell_y as usize][self.cursor.cell_x as usize];
+        self.buffer = cell.code[self.cursor.row as usize]
+            .as_ref()
             .map(|i| i.to_string().chars().collect())
             .unwrap_or(Vec::with_capacity(CodeCell::MAX_NB_COLUMN));
-
     }
 
     fn reset_buffer(&mut self) {
@@ -131,7 +133,7 @@ where
     }
 
     // TODO Display buffer
-    fn refresh(&mut self) -> io::Result<()> {
+    fn refresh(&mut self) -> Result<(), DisplayError> {
         self.game
             .display_at(&mut self.output, 1, 1)
             .and_then(|()| {
@@ -143,9 +145,11 @@ where
             })
             .and_then(|()| self.cursor.display_at(&mut self.output, 1, 1))
             .and_then(|()| self.output.flush())
+            .context(DisplayErrorKind::IoError)
+            .map_err(|e| e.into())
     }
 
-    fn refresh_cursor_and_buffer(&mut self) -> io::Result<()> {
+    fn refresh_cursor_and_buffer(&mut self) -> Result<(), DisplayError> {
         self.buffer
             .display_at(
                 &mut self.output,
@@ -153,13 +157,18 @@ where
                 self.cursor.cell_y * (Cell::TERM_SIZE.1 + 3) + self.cursor.row + 2,
             )
             .and_then(|()| self.cursor.display_at(&mut self.output, 1, 1))
+            .context(DisplayErrorKind::IoError)
+            .map_err(|e| e.into())
     }
 
-    fn refresh_cell(&mut self, cell_x: u16, cell_y: u16) -> io::Result<()> {
-        self.game.grid.cells[cell_y as usize][cell_x as usize].display_at(
-            &mut self.output,
-            1 + cell_x * (Cell::TERM_SIZE.0 + 3),
-            1 + cell_y * (Cell::TERM_SIZE.1 + 3),
-        )
+    fn refresh_cell(&mut self, cell_x: u16, cell_y: u16) -> Result<(), DisplayError> {
+        self.game.grid.cells[cell_y as usize][cell_x as usize]
+            .display_at(
+                &mut self.output,
+                1 + cell_x * (Cell::TERM_SIZE.0 + 3),
+                1 + cell_y * (Cell::TERM_SIZE.1 + 3),
+            )
+            .context(DisplayErrorKind::IoError)
+            .map_err(|e| e.into())
     }
 }
