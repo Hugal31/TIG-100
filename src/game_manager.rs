@@ -1,9 +1,10 @@
 use std::io::{Read, Write};
 
 use failure::ResultExt;
+use termion;
 use termion::event::{Event, Key};
 use termion::input::{Events, TermRead};
-use tig_100_game::{Cell, CodeCell, Game};
+use tig_100_game::{Cell, CodeCell, Game, Grid};
 
 use cursor::Cursor;
 use errors::{DisplayError, DisplayErrorKind, Error};
@@ -38,6 +39,7 @@ where
     }
 
     pub fn play(&mut self) -> Result<(), Error> {
+        self.check_term_size()?;
         self.refresh()?;
 
         while let Some(evt) = self.events.next() {
@@ -57,6 +59,16 @@ where
         }
 
         Ok(())
+    }
+
+    fn check_term_size(&self) -> Result<(), DisplayError> {
+        let (term_width, term_height) = termion::terminal_size()
+            .context(DisplayErrorKind::IoError)?;
+        if term_width < Grid::TERM_SIZE.0 || term_height < Grid::TERM_SIZE.1 {
+            Err(DisplayErrorKind::ScreenToSmall(Grid::TERM_SIZE.0, Grid::TERM_SIZE.1).into())
+        } else {
+            Ok(())
+        }
     }
 
     fn cursor_up(&mut self) -> Result<(), DisplayError> {
@@ -132,7 +144,6 @@ where
         self.buffer.clear();
     }
 
-    // TODO Display buffer
     fn refresh(&mut self) -> Result<(), DisplayError> {
         self.game
             .display_at(&mut self.output, 1, 1)

@@ -61,5 +61,5 @@ pub enum DisplayErrorKind {
     IoError,
     /// The screen is too small, and require .0 in width and .1 in height.
     #[fail(display = "The screen must be at least {} by {}", _0, _1)]
-    ScreenToSmall(i16, i16),
+    ScreenToSmall(u16, u16),
 }
