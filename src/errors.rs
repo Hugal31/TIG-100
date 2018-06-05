@@ -1,12 +1,13 @@
 use std::fmt;
-use std::io;
 
 use failure::{Backtrace, Context, Fail};
 
 pub type Result<T> = ::std::result::Result<T, Error>;
 
+/// An enum representing the different kinds of error that can occure in this library.
 #[derive(Debug, Fail)]
 pub enum Error {
+    /// An error that occured during the display process.
     #[fail(display = "{}", _0)]
     Display(DisplayError),
 }
@@ -17,8 +18,7 @@ impl<T: Into<DisplayError>> From<T> for Error {
     }
 }
 
-pub type IoError = io::Error;
-
+/// An error that occured during the display process.
 #[derive(Debug)]
 pub struct DisplayError {
     inner: Context<DisplayErrorKind>,

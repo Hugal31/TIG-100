@@ -8,8 +8,11 @@ use tig_100_game::*;
 const CELL_WIDTH: u16 = 27;
 const CELL_HEIGHT: u16 = 17;
 
+/// A trait representing objects that can be displayed.
 pub trait TermDisplay {
+    /// The size taken at screen.
     const TERM_SIZE: (u16, u16);
+    /// Display on the screen
     fn display_at<W>(&self, w: W, x: u16, y: u16) -> Result<()>
     where
         W: Write;
